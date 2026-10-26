@@ -1,0 +1,113 @@
+# Включение и выключение эффектов командой /temperature on или off
+# Значение сохраняется после перезапуска сервера.
+plugin-enabled: true
+
+# =============================================================
+# TEMPERATURE — настройки температуры для Paper 1.21.11
+# После изменения: /temperature reload
+# Все времена указаны в СЕКУНДАХ, радиусы — в БЛОКАХ.
+# =============================================================
+
+display:
+  # Сколько секунд показывать температуру над хотбаром
+  duration-seconds: 5
+  # Напоминать каждые 5 минут (300 секунд)
+  reminder-seconds: 300
+  # Показывать при входе и переходе в другой биом
+  show-on-join: true
+  show-on-biome-change: true
+
+cold:
+  # Через сколько секунд на холоде появляется ледяная рамка
+  warning-day-seconds: 60
+  warning-night-seconds: 30
+  # Через сколько секунд добавляется замедление I
+  slow-day-seconds: 120
+  slow-night-seconds: 60
+  # Через сколько секунд начинается периодический урон
+  damage-day-seconds: 180
+  damage-night-seconds: 90
+  # Урон в единицах здоровья (2 = одно сердечко)
+  damage-amount: 1.0
+  # Интервал урона от холода
+  damage-every-seconds: 5
+  # Максимальный уровень ледяной рамки (0.0-1.0)
+  frost-screen-strength: 0.75
+  # Время иммунитета после ЛЮБОГО рагу
+  stew-immunity-seconds: 180
+  # Минимальная комфортная температура с учетом защиты брони.
+  comfort-min-temperature: 15
+  # Как часто предупреждать игрока о холоде, пока идет отсчет (секунды).
+  warning-message-every-seconds: 15
+  # Температура, начиная с которой добавляется слабость и усиленный урон.
+  extreme-temperature: -31
+  # Множитель урона при экстремальном холоде (2 = вдвое сильнее).
+  extreme-damage-multiplier: 2.0
+  # Множитель частоты урона при экстремальном холоде (2 = вдвое чаще).
+  extreme-damage-frequency-multiplier: 2.0
+  # Диапазоны ЭФФЕКТИВНОЙ температуры: от min до max ВКЛЮЧИТЕЛЬНО.
+  # slowness-level: 1 = Замедление I, 2 = II, 3 = III.
+  # Если диапазоны меняете, следите, чтобы они не перекрывались.
+  effect-ranges:
+    - {min: 1, max: 14, slowness-level: 1}
+    - {min: -19, max: 0, slowness-level: 2}
+    - {min: -30, max: -20, slowness-level: 3}
+    - {min: -999, max: -31, slowness-level: 3}
+  # Источники тепла защищают от холода, пока игрок рядом.
+  heat-source-radius: 4
+  # Маленькие факелы согревают в меньшем радиусе.
+  torch-radius: 2
+
+heat:
+  # В Аду замедление I начинается через 60 секунд
+  nether-delay-seconds: 60
+  # В пустынных биомах днем — через 180 секунд
+  desert-delay-seconds: 180
+  # Рядом с огнем и лавой в обычном мире — через 180 секунд
+  source-delay-seconds: 180
+  # Радиус огня/лавы, вызывающих жару в обычном мире
+  source-radius: 3
+  # Сколько секунд защищает питье воды/любого зелья
+  drink-immunity-seconds: 180
+  # Сколько секунд защищает купание после выхода из воды
+  bathing-immunity-seconds: 30
+  # Обычный костер НЕ вызывает жару. Факел тоже.
+
+biomes:
+  # Формат: ИМЯ_БИОМА: {day: температура_днем, night: температура_ночью, type: cold/hot/normal}
+  # Можно добавлять биомы по их названиям из Minecraft.
+  # Холод: все указанные ниже биомы; для них действуют общие таймеры cold.
+  SNOWY_TAIGA: {day: -20, night: -30, type: cold}
+  SNOWY_PLAINS: {day: -18, night: -28, type: cold}
+  ICE_SPIKES: {day: -30, night: -40, type: cold}
+  SNOWY_SLOPES: {day: -22, night: -32, type: cold}
+  FROZEN_PEAKS: {day: -35, night: -45, type: cold}
+  JAGGED_PEAKS: {day: -25, night: -35, type: cold}
+  GROVE: {day: -12, night: -22, type: cold}
+  FROZEN_RIVER: {day: -14, night: -24, type: cold}
+  FROZEN_OCEAN: {day: -20, night: -30, type: cold}
+  DEEP_FROZEN_OCEAN: {day: -22, night: -32, type: cold}
+  SNOWY_BEACH: {day: -10, night: -20, type: cold}
+  # Жара в пустынях — только днем.
+  DESERT: {day: 42, night: 18, type: hot}
+  BADLANDS: {day: 40, night: 17, type: hot}
+  ERODED_BADLANDS: {day: 40, night: 17, type: hot}
+  WOODED_BADLANDS: {day: 36, night: 16, type: hot}
+  # Другие биомы используют общие значения ниже.
+  default-day-temperature: 22
+  default-night-temperature: 12
+  nether-temperature: 55
+  end-temperature: 15
+
+# Защита от холода: прибавка к температуре за КАЖДУЮ надетую часть.
+# Можно смешивать броню разных типов, прибавки суммируются.
+# Железо, золото, кольчуга, медь и прочая броня защиты не дают.
+armor:
+  leather-degrees-per-piece: 12
+  diamond-degrees-per-piece: 2
+  netherite-degrees-per-piece: 4
+
+# WorldGuard (при установленном WorldGuard):
+# /rg flag spawn temperature-effects deny  — отключить эффекты в регионе.
+# /rg flag spawn temperature-effects allow — разрешить эффекты.
+# Без флага эффекты включены по умолчанию.
